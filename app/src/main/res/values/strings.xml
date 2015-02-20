@@ -4,5 +4,8 @@
     <string name="app_name">ExamenMapas</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_mapa">Terremotos</string>
+    <string name="title_activity_ver_terremotos">Ver Terremotos</string>
+    <string name="title_activity_acerca_de">Acerca De</string>
 
 </resources>
