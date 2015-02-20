@@ -5,4 +5,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="campo">
+        <item name="android:textColor" >#ffff0000</item>
+        <item name="android:textSize" >10dp</item>
+    </style>
+
+    <style name="valor">
+        <item name="android:textColor" >#ffff0000</item>
+        <item name="android:textSize" >8dp</item>
+    </style>
+
 </resources>
