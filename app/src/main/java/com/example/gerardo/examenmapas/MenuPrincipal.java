@@ -1,24 +1,33 @@
 package com.example.gerardo.examenmapas;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+
+import Utilerias.Avance;
 
 
 public class MenuPrincipal extends ActionBarActivity {
+
+    private ProgressBar _pbCargar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
+        this._pbCargar = (ProgressBar)findViewById(R.id.pgbBar);
+        Avance avance = new Avance(this._pbCargar, this);
+        avance.execute();
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_menu_principal, menu);
+        // getMenuInflater().inflate(R.menu.menu_menu_principal, menu);
         return true;
     }
 
