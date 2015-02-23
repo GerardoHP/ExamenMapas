@@ -6,3 +6,4 @@
 /build
 app/src/debug/res/values/google_maps_api.xml
 *.db
+app/src/main/res/values/config.xml
