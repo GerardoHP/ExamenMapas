@@ -2,17 +2,27 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.
+        Widget.AppCompat.ActionBar
+        Theme.AppCompat.Light.DarkActionBar
+        Theme.Holo.Light
+        -->
     </style>
 
+    <style name="TemaMapas" parent="Widget.AppCompat.ActionButton"></style>
+
     <style name="campo">
-        <item name="android:textColor" >#ffff0000</item>
-        <item name="android:textSize" >10dp</item>
+        <item name="android:textSize" >14dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
     </style>
 
     <style name="valor">
-        <item name="android:textColor" >#ffff0000</item>
-        <item name="android:textSize" >8dp</item>
+        <item name="android:textSize" >16dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
     </style>
 
 </resources>

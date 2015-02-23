@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="servicio_terremoto">
+        http://api.geonames.org/earthquakesJSON?north=%1$2s&amp;south=%2$2s&amp;east=%3$2s&amp;west=%4$2s&amp;username=%5$2s
+    </string>
+    <string name="nombre_usuario">
+        nombre de usuario
+    </string>
+    <string name="tiempo_espera">
+        5
+    </string>
+</resources>

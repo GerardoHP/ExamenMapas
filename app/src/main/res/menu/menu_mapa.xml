@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/map_normal"
+        android:title="Mapa Normal"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_hybrid"
+        android:title="Mapa Híbrido"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_satelite"
+        android:title="Mapa Satelite"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_terrain"
+        android:title="Mapa Terreno"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/buscar_terremotos"
+        android:icon="@drawable/ic_action_terremoto_buscar"
+        app:showAsAction="always"
+        android:title="Buscar Terremotos"/>
+
+    <item
+        android:id="@+id/terremotos"
+        android:title="Ver Terremotos"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_terremoto" />
+
+    <item
+        android:id="@+id/acerca_de"
+        android:title="Acerca De"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_about" />
+
+</menu>
