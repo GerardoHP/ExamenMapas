@@ -1,13 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.gerardo.examenmapas.AcercaDe">
+    tools:context="com.example.gerardo.examenmapas.AcercaDe"
+    android:focusable="false"
+    android:orientation="vertical">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/campo" />
+    <TextView
+        style="@style/campo"
+        android:text="Desarrollador:"/>
 
-</RelativeLayout>
+    <TextView
+        style="@style/valor"
+        android:text="Gerardo de Jesús Hernández Perales"
+        />
+
+    <TextView
+        style="@style/campo"
+        android:text="Correo:"
+        />
+
+    <TextView
+        style="@style/valor"
+        android:text="ghernandez.perales@outlook.com"
+        android:autoLink="email"
+        />
+
+    <TextView
+        style="@style/campo"
+        android:text="Licencia:"
+        />
+
+    <TextView
+        style="@style/valor"
+        android:text="Licencia GPL"
+        />
+
+    <TextView
+        style="@style/campo"
+        android:text="Repositorio Git:"
+        />
+
+    <TextView
+        style="@style/valor"
+        android:text="https://github.com/GerardoHP/ExamenMapas"
+        android:autoLink="web"
+        />
+
+    <TextView
+        style="@style/campo"
+        android:text="Notas:"
+        />
+
+    <TextView
+        style="@style/valor"
+        android:text="El presente proyecto forma parte del curso de programación de móviles del Instituto Tecnológico de Celaya."
+        />
+
+    <TextView
+        style="@style/campo"
+        android:text="Instrucciones:"/>
+
+    <TextView
+        style="@style/valor"
+        android:text="La aplicación muestra los terremotos que han ocurrio dentro de un cuadrante, este cuadrante es defiinido por dos puntos. En el menu se puede selecciona el tipo de mapa que se desa observar, asi como ver en una lista las fechas y las magnitudes de los mismo terremotos. Cuando se seleccione los puntos del cuadrante y se seleccione la opción de mostrar terremotos aparecerán de un color diferente al de los marcadores del cuadrante."/>
+</LinearLayout>

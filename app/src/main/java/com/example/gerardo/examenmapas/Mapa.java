@@ -1,8 +1,11 @@
 package com.example.gerardo.examenmapas;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Entity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -34,15 +37,24 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.concurrent.ExecutionException;
+
+import Utilerias.ServicioTerremotos;
+import Utilerias.TerremotoDto;
+import Utilerias.Utilerias;
+
 public class Mapa extends ActionBarActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private OnMapClickListener _escuchador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
         setUpMapIfNeeded();
+        this._escuchador = new OnMapClickListener(this, mMap);
+        mMap.setOnMapClickListener(this._escuchador);
     }
 
     @Override
@@ -53,8 +65,9 @@ public class Mapa extends ActionBarActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        LatLng[] puntos;
+        switch (item.getItemId()) {
             case R.id.map_hybrid:
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
@@ -72,11 +85,24 @@ public class Mapa extends ActionBarActivity {
                 startActivity(intAcercaDe);
                 break;
             case R.id.terremotos:
-                Intent intVerTerremotos = new Intent(getApplicationContext(), VerTerremotos.class);
-                startActivity(intVerTerremotos);
+                puntos = this._escuchador.ObtenerPuntos();
+                if(puntos != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("norte", puntos[0].latitude);
+                    bundle.putDouble("sur", puntos[1].latitude);
+                    bundle.putDouble("este", puntos[0].longitude);
+                    bundle.putDouble("oeste", puntos[1].longitude);
+                    Intent intVerTerremotos = new Intent(getApplicationContext(), VerTerremotos.class);
+                    intVerTerremotos.putExtras(bundle);
+                    startActivity(intVerTerremotos);
+                }
                 break;
             case R.id.buscar_terremotos:
-                Toast.makeText(this, "Se muestran los terremotos", Toast.LENGTH_LONG).show();
+                puntos = this._escuchador.ObtenerPuntos();
+                if(puntos != null){
+                    this.LlamarServicio(this._escuchador.ObtenerPuntos());
+                }
+
                 break;
             default:
                 break;
@@ -85,7 +111,7 @@ public class Mapa extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-        @Override
+    @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
@@ -127,5 +153,94 @@ public class Mapa extends ActionBarActivity {
      */
     private void setUpMap() {
         // mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    }
+
+    private void LlamarServicio(LatLng[] posiciones){
+        Double[] puntos = new Double[4];
+        puntos[0] = posiciones[0].latitude;
+        puntos[1] = posiciones[1].latitude;
+        puntos[2] = posiciones[0].longitude;
+        puntos[3] = posiciones[1].longitude;
+
+        String urlStr = getString(R.string.servicio_terremoto);
+        String nombreUsuario = getString(R.string.nombre_usuario);
+        ServicioTerremotos servicio = new ServicioTerremotos(urlStr, nombreUsuario, this);
+        servicio.execute(puntos);
+        try {
+            this.MostrarMapas(Utilerias.ObtenerDtos(servicio.get()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void MostrarMapas(TerremotoDto[] terremotoDtos){
+        if(terremotoDtos == null){
+            Toast.makeText(this, "No se encontraron resultados, intente con otras coordenadas.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        mMap.clear();
+        for(TerremotoDto terremoto : terremotoDtos){
+            LatLng posicion = new LatLng(terremoto.lat, terremoto.lng);
+            MarkerOptions marcador = new MarkerOptions().position(posicion).title(terremoto.eqid);
+            marcador.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            mMap.addMarker(marcador);
+        }
+    }
+
+    class OnMapClickListener implements GoogleMap.OnMapClickListener{
+
+        private final Activity _actividad;
+        private LatLng[] puntos;
+        private GoogleMap _map;
+
+        public OnMapClickListener(Activity actividad, GoogleMap map){
+            this._actividad = actividad;
+            this._map = map;
+            puntos = new LatLng[2];
+        }
+
+        @Override
+        public void onMapClick(LatLng latLng) {
+            if(puntos[0] == null){
+                puntos[0] = latLng;
+            }
+            else
+            {
+                if(puntos[1] == null){
+                    puntos[1] = latLng;
+                }
+                else{
+                    puntos[0] = puntos[1];
+                    puntos[1] = latLng;
+                }
+            }
+
+            this.LimpiarPuntos();
+            this.MostrarPuntos();
+        }
+
+        private void MostrarPuntos() {
+            for(int i = 0; i < puntos.length; i++){
+                if(puntos[i] != null){
+                    this._map.addMarker(new MarkerOptions().position(puntos[i]).title("Punto " + String.valueOf(i)));
+                }
+            }
+        }
+
+        private void LimpiarPuntos() {
+            this._map.clear();
+        }
+
+        public LatLng[] ObtenerPuntos(){
+            if(puntos[0] == null || puntos[1] == null){
+                Toast.makeText(this._actividad, "No ha seleccionado dos puntos en el mapa.", Toast.LENGTH_LONG).show();
+                return null;
+            }
+
+            return puntos;
+        }
     }
 }
